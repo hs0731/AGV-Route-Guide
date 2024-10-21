@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGV Route Guide</title>
+</head>
+<body>
+    <h1>AGV Route Guide</h1>
+    <form id="routeForm">
+        <label for="userLocation">User Location:</label>
+        <input type="text" id="userLocation" required><br>
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" required><br>
+        <button type="submit">Set Route</button>
+    </form>
+
+    <script>
+        document.getElementById('routeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const userLocation = document.getElementById('userLocation').value;
+            const destination = document.getElementById('destination').value;
+
+            fetch('http://<YOUR_SERVER_URL>/set-route', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userLocation, destination }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
